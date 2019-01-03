@@ -4,6 +4,9 @@ Hassle-free Obfuscator-Enabled Apple Clang without any sort of compromise.
 # Must be this tall to ride
 Due to its hackish nature (Which is why I don't want to do this in the first place), you should probably know some LLVM/macOS Hooking/Binary Patching and stuff to debug this thing
 
+# Modifications
+This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 (The version Apple is using) to avoid any potential issues, although it should work with LLVM7.0 as base. Most of the modifications are done to load options without hacking ``llvm::cl`` as well as some LLVM building configurations.
+
 # Building
 
 ## Core
