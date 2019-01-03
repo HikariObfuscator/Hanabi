@@ -1,5 +1,5 @@
 # 夏恋花火
-Hassle-free Obfuscator-Enabled Apple Clang without any sort of compromise. More to come later
+Hassle-free Obfuscator-Enabled Apple Clang without any sort of compromise.
 
 # Must be this tall to ride
 Due to its hackish nature (Which is why I don't want to do this in the first place), you should probably know some LLVM/macOS Hooking/Binary Patching and stuff to debug this thing
