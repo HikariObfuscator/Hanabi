@@ -222,6 +222,15 @@ namespace {
       X.add(nullptr, 0, llvm::AAMDNodes()); // for -print-alias-sets
       (void) llvm::AreStatisticsEnabled();
       (void) llvm::sys::RunningOnValgrind();
+      (void) llvm::createStringEncryptionPass();
+      (void) llvm::createFunctionCallObfuscatePass();
+      (void) llvm::createAntiClassDumpPass();
+      (void) llvm::createBogusControlFlowPass();
+      (void) llvm::createFlatteningPass();
+      (void) llvm::createSplitBasicBlockPass();
+      (void) llvm::createSubstitutionPass();
+      (void) llvm::createIndirectBranchPass();
+      (void) llvm::createObfuscationPass();
     }
   } ForcePassLinking; // Force link by creating a global definition.
 }

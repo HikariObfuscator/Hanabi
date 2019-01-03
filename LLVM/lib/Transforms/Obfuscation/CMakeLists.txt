@@ -1,0 +1,16 @@
+add_llvm_loadable_module(LLVMObfuscation
+  FunctionCallObfuscate.cpp
+  CryptoUtils.cpp
+  BogusControlFlow.cpp
+  Substitution.cpp
+  Flattening.cpp
+  Utils.cpp
+  SplitBasicBlocks.cpp
+  AntiClassDump.cpp
+  StringEncryption.cpp
+  IndirectBranch.cpp
+  FunctionWrapper.cpp
+  Obfuscation.cpp
+  DEPENDS
+  intrinsics_gen
+)

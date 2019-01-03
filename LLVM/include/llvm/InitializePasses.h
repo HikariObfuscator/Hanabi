@@ -383,6 +383,15 @@ void initializeWriteBitcodePassPass(PassRegistry&);
 void initializeWriteThinLTOBitcodePass(PassRegistry&);
 void initializeXRayInstrumentationPass(PassRegistry&);
 void initializeMIRCanonicalizerPass(PassRegistry &);
+void initializeStringEncryptionPass(PassRegistry &);
+void initializeFunctionCallObfuscatePass(PassRegistry &);
+void initializeAntiClassDumpPass(PassRegistry &);
+void initializeBogusControlFlowPass(PassRegistry &);
+void initializeFlatteningPass(PassRegistry &);
+void initializeSplitBasicBlockPass(PassRegistry &);
+void initializeSubstitutionPass(PassRegistry &);
+void initializeIndirectBranchPass(PassRegistry &);
+void initializeObfuscationPass(PassRegistry &);
 
 } // end namespace llvm
 
