@@ -35,3 +35,8 @@ Due to many LLVM internal design choices, you can no longer pass options from co
 - BCFOBF EnableBogusControlFlow
 - ACDOBF EnableAntiClassDump
 - CFFOBF EnableFlattening
+
+# Credits
+
+- Thanks to @AloneMonkey for compiling substitute and ship it with his amazing project [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev/blob/master/MFrameworks/libsubstitute.dylib)
+- Thanks to @UESTC-LXY for testing and discussion because I didn't bother to do so.
