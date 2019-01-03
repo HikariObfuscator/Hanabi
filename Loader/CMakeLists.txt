@@ -7,5 +7,5 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g -O2 -D DEB
 set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_RELEASE} -O3 -D NDEBUG -Wall")
 add_library(Injector SHARED ${CMAKE_CURRENT_LIST_DIR}/Loader.cpp)
 target_include_directories(Injector PUBLIC ${CMAKE_CURRENT_LIST_DIR}/ ${CMAKE_CURRENT_LIST_DIR}/../LLVM/include/ ${CMAKE_CURRENT_LIST_DIR}/../build/include/)
-target_link_libraries(Injector ${CMAKE_CURRENT_LIST_DIR}/libsubstitute.dylib)
+target_link_libraries(Injector ${CMAKE_CURRENT_LIST_DIR}/libsubstitute.dylib ${CMAKE_CURRENT_LIST_DIR}/../build/lib/libLLVM.dylib)
 #set (CMAKE_SHARED_LINKER_FLAGS "-undefined dynamic_lookup")

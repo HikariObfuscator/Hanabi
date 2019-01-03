@@ -56,6 +56,41 @@ static cl::opt<bool>
     EnableFunctionWrapper("enable-funcwra", cl::init(false), cl::NotHidden,
                           cl::desc("Enable Function Wrapper."));
 // End Obfuscator Options
+static void LoadEnv(){
+  //Used to setup stuffz from env var
+  if(getenv("SPLITOBF")){
+    EnableBasicBlockSplit=true;
+  }
+  if(getenv("SUBOBF")){
+    EnableSubstitution=true;
+  }
+  if(getenv("ALLOBF")){
+    EnableAllObfuscation=true;
+  }
+  if(getenv("FCO")){
+    EnableFunctionCallObfuscate=true;
+  }
+  if(getenv("STRCRY")){
+    EnableStringEncryption=true;
+  }
+  if(getenv("INDIBRAN")){
+    EnableIndirectBranching=true;
+  }
+  if(getenv("FUNCWRA")){
+    EnableFunctionWrapper=true;
+  }
+  if(getenv("BCFOBF")){
+    EnableBogusControlFlow=true;
+  }
+  if(getenv("ACDOBF")){
+    EnableAntiClassDump=true;
+  }
+  if(getenv("CFFOBF")){
+    EnableFlattening=true;
+  }
+
+}
+
 namespace llvm {
 struct Obfuscation : public ModulePass {
   static char ID;
@@ -65,6 +100,7 @@ struct Obfuscation : public ModulePass {
   }
   bool runOnModule(Module &M) override {
     // Initial ACD Pass
+    LoadEnv();
     if (EnableAllObfuscation || EnableAntiClassDump) {
       ModulePass *P = createAntiClassDumpPass();
       P->doInitialization(M);

@@ -1,4 +1,4 @@
-add_llvm_loadable_module(LLVMObfuscation
+add_llvm_library(LLVMObfuscation
   FunctionCallObfuscate.cpp
   CryptoUtils.cpp
   BogusControlFlow.cpp
