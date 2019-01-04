@@ -36,6 +36,16 @@ Due to many LLVM internal design choices, you can no longer pass options from co
 - ACDOBF EnableAntiClassDump
 - CFFOBF EnableFlattening
 
+Basically it means you will need to following steps:
+
+- Open up a terminal 
+- export the env vars you need
+- ``/Applications/Xcode.app/Contents/MacOS/Xcode``
+
+This should get you a probably initialized Xcode.
+
+Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.com/HikariObfuscator/NatsukoiHanabi/blob/master/LLVM/lib/Transforms/Obfuscation/Obfuscation.cpp#L59) to initialize the flags in a way you prefer
+
 # Known Issues
 - LLVM 6.0.1 (which Apple's Clang and this project is currently based on) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Another more robust solution would be hook those parts and pipe the CodeGeneration pipeline back to LLVM7.0 but I couldn't be less bothered for that
 - BCFOBF will sometimes result in an infinite loop in shipped LLVM's ``ConstantFP``,possibly due to internal data structure mismatch. (Thanks to @UESTC-LXY for debugging this)
