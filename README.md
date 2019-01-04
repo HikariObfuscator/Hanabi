@@ -40,7 +40,12 @@ Due to many LLVM internal design choices, you can no longer pass options from co
 - LLVM 6.0.1 (which Apple's Clang and this project is currently based on) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Another more robust solution would be hook those parts and pipe the CodeGeneration pipeline back to LLVM7.0 but I couldn't be less bothered for that
 - BCFOBF will sometimes result in an infinite loop in shipped LLVM's ``ConstantFP``,possibly due to internal data structure mismatch. (Thanks to @UESTC-LXY for debugging this)
 
+# Future enhancements
+Hijacking PMB is IMHO a little bit too late into the compilation pipeline. A better approach would be hijacking Clang's raw AST, reuse our own shipped Clang CG, run through the rest of our own optimization pipeline then transfer the processed LLVM IR back to Apple LLVM? Maybe? We need more research into Apple's LLVM for this
+
 # Credits
 
 - Thanks to @AloneMonkey for compiling substitute and ship it with his amazing project [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev/blob/master/MFrameworks/libsubstitute.dylib)
 - Thanks to @UESTC-LXY for testing and discussion because I didn't bother to do so.
+
+
