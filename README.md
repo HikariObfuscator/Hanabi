@@ -38,7 +38,7 @@ Due to many LLVM internal design choices, you can no longer pass options from co
 
 # Known Issues
 - LLVM 6.0.1 (which Apple's Clang and this project is currently based on) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Another more robust solution would be hook those parts and pipe the CodeGeneration pipeline back to LLVM7.0 but I couldn't be less bothered for that
-- BCFOBF will results in an infinite loop in shipped LLVM's ``ConstantFP``,possibly due to internal data structure mismatch. (Thanks to @UESTC-LXY for debugging this)
+- BCFOBF will sometimes result in an infinite loop in shipped LLVM's ``ConstantFP``,possibly due to internal data structure mismatch. (Thanks to @UESTC-LXY for debugging this)
 
 # Credits
 
