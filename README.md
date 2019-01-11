@@ -36,7 +36,7 @@ Due to many LLVM internal design choices, you can no longer pass options from co
 - ACDOBF EnableAntiClassDump
 - CFFOBF EnableFlattening
 
-Basically it means you will need to following steps:
+Basically it means you will need to follow the following steps:
 
 - Open up a terminal 
 - export the env vars you need
