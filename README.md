@@ -42,7 +42,7 @@ Basically it means you will need to follow the following steps:
 - export the env vars you need
 - ``/Applications/Xcode.app/Contents/MacOS/Xcode``
 
-This should get you a probably initialized Xcode.
+This should get you a properly initialized Xcode.
 
 Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.com/HikariObfuscator/NatsukoiHanabi/blob/master/LLVM/lib/Transforms/Obfuscation/Obfuscation.cpp#L59) to initialize the flags in a way you prefer
 
@@ -53,6 +53,7 @@ Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.co
 # Future enhancements
 - Hijacking PMB is IMHO a little bit too late into the compilation pipeline. A better approach would be hijacking Clang's raw AST, reuse our own shipped Clang CG, run through the rest of our own optimization pipeline then transfer the processed LLVM IR back to Apple LLVM? Maybe? We need more research into Apple's LLVM for this
 - Mapping ``LLVMContext`` with Apple's Context. Since the majority of IR/Constant is binded with one specific context
+- We can use LLVM's very own ``-mllvm -load`` options, however in my personal experience that thing is very troublesome and usually even more unstable.
 
 # Credits
 
