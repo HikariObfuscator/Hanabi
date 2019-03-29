@@ -9,6 +9,8 @@ This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 
 
 # Building
 
+**You need to git clone --recursive when cloning this prohject**
+
 ## Core
 Create a folder called ``build/`` in project root, inside it build the attached LLVM with ``cmake ../LLVM -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -DLLVM_BUILD_LLVM_DYLIB=ON -G Ninja`` and ``ninja libLLVM.dylib``. Copy ``build/lib/libLLVM.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 
