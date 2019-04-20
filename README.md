@@ -1,6 +1,12 @@
-# 夏恋花火
+# 花火
 Hassle-free Obfuscator-Enabled Apple Clang without any sort of compromise.
 ![](https://github.com/HikariObfuscator/NatsukoiHanabi/blob/master/Demo.jpg?raw=true)
+
+# License
+Please refer to [License](https://github.com/HikariObfuscator/Hikari/wiki/License). 
+
+Note that this linked version of license text overrides any artifact left in source code
+
 # Must be this tall to ride
 Due to its hackish nature (Which is why I don't want to do this in the first place), you should probably know some LLVM/macOS Hooking/Binary Patching and stuff to debug this thing
 
