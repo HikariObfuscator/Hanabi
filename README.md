@@ -15,7 +15,10 @@ This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 
 
 # Building
 
-You need to ``git clone --recursive https://github.com/HikariObfuscator/NatsukoiHanabi.git``when cloning this project
+## Obtaining Source
+- ``git clone --recursive https://github.com/HikariObfuscator/Hanabi.git ``
+- ``cd Hanabi``
+- ``git submodule update --remote --recursive``
 
 ## Core
 Create a folder called ``build/`` in project root, inside it build the attached LLVM with ``cmake ../LLVM -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja`` and ``ninja LLVMObfuscation LLVMCore LLVMTransformUtils LLVMAnalysis``.
@@ -56,7 +59,7 @@ Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.co
 
 # Known Issues
 - LLVM 6.0.1 (which Apple's Clang and this project is currently based on) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Another more robust solution would be hook those parts and pipe the CodeGeneration pipeline back to LLVM7.0 but I couldn't be less bothered for that
-- BCFOBF will sometimes result in an infinite loop in shipped LLVM's ``ConstantFP``(Thanks to @UESTC-LXY for debugging this)
+- ~~Floating Point Instructions will sometimes result in an infinite loop in shipped LLVM's ``ConstantFP``(Thanks to @UESTC-LXY for discovering this)~~ This has been fixed by adding an option in upstream core to disable FP operations
 
 # Future enhancements
 - Hijacking PMB is IMHO a little bit too late into the compilation pipeline. A better approach would be hijacking Clang's raw AST, reuse our own shipped Clang CG, run through the rest of our own optimization pipeline then transfer the processed LLVM IR back to Apple LLVM? Maybe? We need more research into Apple's LLVM for this
