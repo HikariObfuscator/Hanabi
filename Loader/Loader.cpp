@@ -4,15 +4,11 @@
 #include <string>
 #include <libgen.h>
 using namespace std;
-int llvm::DisableABIBreakingChecks=1;
 void (*old_pmb)(void* dis,legacy::PassManagerBase &MPM);
 void* handle=nullptr;
 static void new_pmb(void* dis,legacy::PassManagerBase &MPM){
-  printf("Injecting Custom Obfuscation Pass\n");
   MPM.add(createObfuscationPass());
-  printf("Added Obfuscation Pass\n");
   old_pmb(dis,MPM);
-  printf("Done PMB Hijacking\n");
 }
 static __attribute__((__constructor__)) void Inj3c73d(int argc, char* argv[]){
   char* executablePath=argv[0];

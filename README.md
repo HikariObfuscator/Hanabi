@@ -3,7 +3,7 @@ Hassle-free Obfuscator-Enabled Apple Clang without any sort of compromise.
 ![](https://github.com/HikariObfuscator/NatsukoiHanabi/blob/master/Demo.jpg?raw=true)
 
 # License
-Please refer to [License](https://github.com/HikariObfuscator/Hikari/wiki/License). 
+Please refer to [License](https://github.com/HikariObfuscator/Hikari/wiki/License).
 
 Note that this linked version of license text overrides any artifact left in source code
 
@@ -18,7 +18,7 @@ This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 
 You need to ``git clone --recursive https://github.com/HikariObfuscator/NatsukoiHanabi.git``when cloning this project
 
 ## Core
-Create a folder called ``build/`` in project root, inside it build the attached LLVM with ``cmake ../LLVM -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -DLLVM_BUILD_LLVM_DYLIB=ON -G Ninja`` and ``ninja libLLVM.dylib``. Copy ``build/lib/libLLVM.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
+Create a folder called ``build/`` in project root, inside it build the attached LLVM with ``cmake ../LLVM -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja`` and ``ninja LLVMObfuscation LLVMCore LLVMTransformUtils``.
 
 ## Loader
 Create a folder called ``build/`` in ``Loader/``, inside it build the Loader with `` cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ../`` and ``ninja``.
@@ -46,7 +46,7 @@ Due to many LLVM internal design choices, you can no longer pass options from co
 
 Basically it means you will need to follow the following steps:
 
-- Open up a terminal 
+- Open up a terminal
 - export the env vars you need
 - ``/Applications/Xcode.app/Contents/MacOS/Xcode``
 
@@ -67,5 +67,3 @@ Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.co
 
 - Thanks to @AloneMonkey for compiling substitute and ship it with his amazing project [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev/blob/master/MFrameworks/libsubstitute.dylib)
 - Thanks to @UESTC-LXY for testing and discussion because I didn't bother to do so.
-
-
