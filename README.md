@@ -13,6 +13,10 @@ Due to its hackish nature (Which is why I don't want to do this in the first pla
 # Modifications
 This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 (The version Apple is using) to avoid any potential issues, although it should work with LLVM7.0 as base. Most of the modifications are done to load options without hacking ``llvm::cl`` as well as some LLVM building configurations.
 
+# Using Release Builds
+- Extract the zipped file and move two extracted dylibs under ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin ``
+- Run ``optool install -c load -p @executable_path/libInjector.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -b /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
+
 # Building
 
 ## Obtaining Source
