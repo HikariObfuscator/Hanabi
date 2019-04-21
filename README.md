@@ -18,7 +18,7 @@ This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 
 You need to ``git clone --recursive https://github.com/HikariObfuscator/NatsukoiHanabi.git``when cloning this project
 
 ## Core
-Create a folder called ``build/`` in project root, inside it build the attached LLVM with ``cmake ../LLVM -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja`` and ``ninja LLVMObfuscation LLVMCore LLVMTransformUtils``.
+Create a folder called ``build/`` in project root, inside it build the attached LLVM with ``cmake ../LLVM -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja`` and ``ninja LLVMObfuscation LLVMCore LLVMTransformUtils LLVMAnalysis``.
 
 ## Loader
 Create a folder called ``build/`` in ``Loader/``, inside it build the Loader with `` cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ../`` and ``ninja``.
