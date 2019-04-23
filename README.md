@@ -16,21 +16,17 @@ This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 
 # Building
 
 ## Obtaining Source
-- ``git clone --recursive https://github.com/HikariObfuscator/Hanabi.git ``
-- ``cd Hanabi``
-- ``git submodule update --remote --recursive``
+- ``git clone --recursive https://github.com/HikariObfuscator/Hanabi.git $(PATH/TO/LLVM_SRC_DIR)/projects``
 
-## Core
-Create a folder called ``build/`` in project root, inside it build the attached LLVM with ``cmake ../LLVM -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja`` and ``ninja LLVMObfuscation LLVMCore LLVMTransformUtils LLVMAnalysis``.
-
-## Loader
-Create a folder called ``build/`` in ``Loader/``, inside it build the Loader with `` cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ../`` and ``ninja``.
-Copy ``Loader/build/libInjector.dylib`` and ``Loader/libsubstitute.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
+## Build
+- Follow your normal build procedure but build only the target ``LLVMHanabi`` which should hopefully build the dependencies as well
+- Copy ``$(LLVM_BUILD_PATH)/lib/libLLVMHanabi.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
+- Copy ``$(HANABI_SOURCE_PATH)/libsubstitute.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 
 # Patching
 
 You need to build ``https://github.com/alexzielenski/optool`` and put it in your $PATH, then
-``optool install -c load -p @executable_path/libInjector.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang`` (Remember to backup your original Clang first)
+``optool install -c load -p @executable_path/libLLVMHanabi.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang`` (Remember to backup your original Clang first)
 
 # Using
 
