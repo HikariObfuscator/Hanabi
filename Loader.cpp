@@ -1,8 +1,12 @@
 #include "substrate.h"
 #include <llvm/Transforms/Obfuscation/Obfuscation.h>
-#include <llvm/Support/CommandLine.h>
+#include <llvm/Config/abi-breaking.h>
 #include <string>
 #include <libgen.h>
+#if LLVM_ENABLE_ABI_BREAKING_CHECKS==1
+#error "Configure LLVM with -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF"
+#endif
+
 using namespace std;
 void (*old_pmb)(void* dis,legacy::PassManagerBase &MPM);
 void* handle=nullptr;
