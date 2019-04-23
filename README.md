@@ -15,15 +15,17 @@ Due to its hackish nature (Which is why I don't want to do this in the first pla
 - Run ``optool install -c load -p @executable_path/libLLVMHanabi.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -b /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 
 # Building
+- ``$(LLVM_SOURCE_PATH)`` The path that stored Hikari's main repo with submodules properly fetched
+- ``${LLVM_BUILD_PATH}`` The path you prepare to build in. Note that you need a seperate folder and must not reuse existing build for upstream Hikari
 
 ## Obtaining Source
-- ``git clone --recursive https://github.com/HikariObfuscator/Hanabi.git $(PATH/TO/LLVM_SRC_DIR)/projects``
+- ``git clone --recursive https://github.com/HikariObfuscator/Hanabi.git $(LLVM_SOURCE_PATH)/projects/``
 
 ## Build
-- ``cmake ../LLVM -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja``
+- ``cmake $(LLVM_SOURCE_PATH) -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja``
 - ``ninja LLVMObfuscation LLVMCore LLVMTransformUtils LLVMAnalysis LLVMHanabi``
 - Copy ``$(LLVM_BUILD_PATH)/lib/libLLVMHanabi.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
-- Copy ``$(HANABI_SOURCE_PATH)/libsubstitute.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
+- Copy ``$(LLVM_SOURCE_PATH)/projects/Hanabi/libsubstitute.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 
 # Patching
 
@@ -66,5 +68,6 @@ Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.co
 
 # Credits
 
-- Thanks to @AloneMonkey for compiling substitute and ship it with his amazing project [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev/blob/master/MFrameworks/libsubstitute.dylib)
-- Thanks to @UESTC-LXY for testing and discussion because I didn't bother to do so.
+- Thanks to [@AloneMonkey](https://github.com/AloneMonkey) for compiling substitute and ship it with his amazing project [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev/blob/master/MFrameworks/libsubstitute.dylib)
+- Thanks to [@UESTC-LXY](https://github.com/UESTC-LXY) for testing and discussion because I didn't bother to do so.
+- Thanks to[@qokelate](https://github.com/qokelate) for initially discovering the broken CMake script and testing the new fix as well as suggestions to this README
