@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION "3.13.0")
 add_library(LLVMHanabi SHARED
   ${CMAKE_CURRENT_LIST_DIR}/Loader.cpp
 )
