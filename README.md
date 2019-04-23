@@ -23,7 +23,8 @@ This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 
 - ``git clone --recursive https://github.com/HikariObfuscator/Hanabi.git $(PATH/TO/LLVM_SRC_DIR)/projects``
 
 ## Build
-- Follow your normal build procedure but build only the target ``LLVMHanabi`` which should hopefully build the dependencies as well
+- ``cmake ../LLVM -DHIKARI_ENABLE_FP=OFF -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja``
+- ``ninja LLVMObfuscation LLVMCore LLVMTransformUtils LLVMAnalysis LLVMHanabi
 - Copy ``$(LLVM_BUILD_PATH)/lib/libLLVMHanabi.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 - Copy ``$(HANABI_SOURCE_PATH)/libsubstitute.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 
