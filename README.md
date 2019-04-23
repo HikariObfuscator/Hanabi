@@ -15,7 +15,7 @@ This project uses a slightly modified Hikari upstream ported back to LLVM 6.0.1 
 
 # Using Release Builds
 - Extract the zipped file and move two extracted dylibs under ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin ``
-- Run ``optool install -c load -p @executable_path/libInjector.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -b /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
+- Run ``optool install -c load -p @executable_path/libLLVMHanabi.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -b /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 
 # Building
 
