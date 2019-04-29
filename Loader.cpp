@@ -9,8 +9,12 @@
 #endif
 using namespace std;
 Pass* (*old_get_LS)();
-extern "C" void _ZN4llvm10ModulePassD2Ev(){
-
+extern "C" void _ZN4llvm10ModulePassD2Ev(void* curr){
+  //Definitely not the current implementation
+  //Meh
+  if(curr!=null){
+    delete curr;
+  }
 }
 void llvm::Value::assertModuleIsMaterializedImpl()const{
 
