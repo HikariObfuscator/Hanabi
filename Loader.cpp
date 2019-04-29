@@ -1,3 +1,4 @@
+// For open-source license, please refer to [License](https://github.com/HikariObfuscator/Hikari/wiki/License).
 #include "substrate.h"
 #include <llvm/Transforms/Obfuscation/Obfuscation.h>
 #include <llvm/Config/abi-breaking.h>
