@@ -12,10 +12,10 @@ Due to its hackish nature (Which is why I don't want to do this in the first pla
 
 # Using Release Builds
 - Extract the zipped file and move two extracted dylibs under ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin ``
-- Run ``optool install -c load -p @executable_path/libLLVMHanabi.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -b /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
+- See [Patching](#patching). Ignore library not found in that release version
 
 # Building
-- ``$(LLVM_SOURCE_PATH)`` The path that stored Hikari's main repo with submodules properly fetched
+- ``$(LLVM_SOURCE_PATH)`` The path that stored Hikari's main repo with submodules properly fetched. It's suggested to use a Hikari branch that matches your Apple Clang's LLVM version. See [Release Versioning Scheme](#release-versioning-scheme) to see how to find the LLVM version of your Clang
 - ``${LLVM_BUILD_PATH}`` The path you prepare to build in. Note that you need a seperate folder and must not reuse existing build for upstream Hikari
 
 ## Obtaining Source
@@ -24,62 +24,27 @@ Due to its hackish nature (Which is why I don't want to do this in the first pla
 ## Build
 - ``cmake $(LLVM_SOURCE_PATH) -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja``
 - ``ninja LLVMHanabi``
+- Copy ``$(LLVM_BUILD_PATH)/lib/libLLVMHanabiDeps.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 - Copy ``$(LLVM_BUILD_PATH)/lib/libLLVMHanabi.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 - Copy ``$(LLVM_SOURCE_PATH)/projects/Hanabi/libsubstitute.dylib`` to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/``
 
 # Patching
 
-You need to build ``https://github.com/alexzielenski/optool`` and put it in your $PATH, then
-``optool install -c load -p @executable_path/libLLVMHanabi.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang`` (Remember to backup your original Clang first)
-
-# Using
-
-Due to many LLVM internal design choices, you can no longer pass options from command line and instead you'll have to use environment variables. Currently it supports the following:  
-
-- SPLITOBF EnableBasicBlockSplit
-- SUBOBF EnableSubstitution
-- ALLOBF EnableAllObfuscation
-- FCO EnableFunctionCallObfuscate
-- STRCRY EnableStringEncryption
-- INDIBRAN EnableIndirectBranching
-- FUNCWRA EnableFunctionWrapper
-- BCFOBF EnableBogusControlFlow
-- ACDOBF EnableAntiClassDump
-- CFFOBF EnableFlattening
-
-Basically it means you will need to follow the following steps:
-
-- Open up a terminal
-- export the env vars you need
-- ``/Applications/Xcode.app/Contents/MacOS/Xcode``
-
-This should get you a properly initialized Xcode.
-
-Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.com/HikariObfuscator/Core/blob/master/Obfuscation.cpp#L59) to initialize the flags in a way you prefer
+You need to build ``https://github.com/alexzielenski/optool`` and put it in your $PATH, then you need to patch two libraries into Clang/SwiftC.
+**!!!ORDER IS VERY IMPORTANT!!!**
+- ``sudo optool install -c load -p @executable_path/libLLVMHanabiDeps.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang``
+- ``sudo optool install -c load -p @executable_path/libLLVMHanabi.dylib -t /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang``
 
 # Known Issues
 - LLVM 6.0.1 (which Xcode 10.1 and before is using) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Try updating your Xcode version
 
-# Debugging
-```
-dyld: Symbol not found: XXXXXXXXX
-  Referenced from: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libLLVMHanabi.dylib
-  Expected in: flat namespace
- in /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libLLVMHanabi.dylib
-Command CompileSwiftSources failed with a nonzero exit code
-```
-Make sure that you have strictly followed build guide. If the missing symbol contains ``ABIBreakingChecks`` then you are doing it wrong, read the documentation and try again. Otherwise try the following:
-- Remove the first underscore in the symbol name, for example ``__ZN4llvm10ModulePassD2Ev`` becomes ``_ZN4llvm10ModulePassD2Ev``
-- In ``Loader.cpp``, add an implementation of the symbol, below is an exampe:
-```
-extern "C" void _ZN4llvm10ModulePassD2Ev(void* curr){
-
-}
-```
-- Most of the time the symbol is not actually called, so leaving the body empty is more than enough. Otherwise you'll need to implementation your own symbol resolving routine. For example,see ``Loader.cpp``'s handling to resolve the missing ``_ZN4llvm21createLowerSwitchPassEv``. Apparently, this requires some sort of knowledge w.r.t LLVM. If this is too much for you then revert Hanabi to ``724387ad1cc1d33c5d9ddcc3cce380a7eea92bf4`` where a different injection method is used. Note that in this case the Hikari release branch version must much Apple Clang's base LLVM version. The method of finding the base LLVM version could be found below in **Release Versioning Scheme** section.
 
 # How it works
-Strictly speaking, many changes are done to the Hikari Core to reduce LLVM library dependencies. This plus a custom ``CMakeLists.txt`` allows us to redirect almost all Hikari Core's LLVM API Usage back to Apple Clang's implementation. The rest is just plain version-by-version analysis to manually resolve the remaining symbols that are not exported. Since probably 99.99% of the LLVM APIs are redirected back, this solution has the maximum compatibility when properly compiled and injected, comparing to previous naive implementations.
+- Strictly speaking, many changes are done to the Hikari Core to reduce LLVM library dependencies.
+- Loader's linking options is modified to link to no LLVM library and fully resolve them at runtime in a flat namespace, this loader is also known as ``libLLVMHanabi.dylib``
+- Then, we ship a custom mimimal subset of LLVM Core Libraries which serves as the fallback plan for symbols that are not exported in Apple's binaries, this is known as ``libLLVMHanabiDeps.dylib``.
+- By not linking the full LLVM suite, we are allowed to reduce build time and more importantly, allows us to pass arguments like we normally would. (``-mllvm``)
+
 
 # Release Versioning Scheme
 The releases has a versioning scheme like ``6.0@9ab263`` where the first part represents LLVM base version and the second represents Hikari Core's git commit hash. In this case, it means the release is tested to work on a Xcode version that uses LLVM6.0. You can refer to ``Toolchain version history`` in [Xcode - Wikipedia](https://en.wikipedia.org/wiki/Xcode) and uses the ``LLVM`` column to find the matching Xcode version, which is this case is ``Xcode 10.0`` and ``Xcode 10.1``.
