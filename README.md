@@ -47,7 +47,7 @@ You need to build ``https://github.com/alexzielenski/optool`` and put it in your
 
 
 # Release Versioning Scheme
-The releases has a versioning scheme like ``6.0@9ab263`` where the first part represents LLVM base version and the second represents Hikari Core's git commit hash. In this case, it means the release is tested to work on a Xcode version that uses LLVM6.0. You can refer to ``Toolchain version history`` in [Xcode - Wikipedia](https://en.wikipedia.org/wiki/Xcode) and uses the ``LLVM`` column to find the matching Xcode version, which is this case is ``Xcode 10.0`` and ``Xcode 10.1``.
+The releases has a versioning scheme like ``6.0@9ab263@LoaderV3`` where the first part represents LLVM base version, the second represents Hikari Core's git commit hash and the third one represents the Loader implementation version. In this case, it means the release is tested to work on a Xcode version that uses LLVM6.0. You can refer to ``Toolchain version history`` in [Xcode - Wikipedia](https://en.wikipedia.org/wiki/Xcode) and uses the ``LLVM`` column to find the matching Xcode version, which is this case is ``Xcode 10.0`` and ``Xcode 10.1``. This release uses [Core](https://github.com/HikariObfuscator/Core) at 9ab263 and V3 of the loader
 # Credits
 
 - Thanks to [@AloneMonkey](https://github.com/AloneMonkey) for compiling substitute and ship it with his amazing project [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev/blob/master/MFrameworks/libsubstitute.dylib)
