@@ -12,6 +12,7 @@ Due to its hackish nature (Which is why I don't want to do this in the first pla
 
 # Using Release Builds
 - Extract the zipped file and move two extracted dylibs under ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin ``
+- Download [libsubstitute.dylib](https://github.com/HikariObfuscator/Hanabi/raw/master/libsubstitute.dylib) and move it to ``/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin ``
 - See [Patching](#patching). Ignore library not found in that release version
 
 # Building
