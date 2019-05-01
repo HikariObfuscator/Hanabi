@@ -58,8 +58,13 @@ This should get you a properly initialized Xcode.
 Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.com/HikariObfuscator/Core/blob/master/Obfuscation.cpp#L59) to initialize the flags in a way you prefer
 
 # Known Issues
-- LLVM 6.0.1 (which Apple's Clang and this project is currently based on) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Another more robust solution would be hook those parts and pipe the CodeGeneration pipeline back to LLVM7.0 but I couldn't be less bothered for that
+- LLVM 6.0.1 (which Xcode 10.1 and before is using) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Try updating your Xcode version
 
+# How it works
+Strictly speaking, many changes are done into the Core to reduce LLVM library dependencies. This plus a custom ``CMakeLists.txt`` allows us to redirect almost all Hikari Core's LLVM API Usage back to Apple Clang's implementation. The rest is just plain version-by-version analysis to manually resolve the remaining symbols that are not exported. Since probably 99.99% of the LLVM APIs are redirected back, this solution has the maximum compatibility when probably compiled and injected, comparing to previous naive implementations.
+
+# Release Versioning Scheme
+The releases has a versioning scheme like ``6.0@9ab263`` where the first part represents LLVM base version and the second represents Hikari Core's git commit hash. In this case, it means the release is tested to work on a Xcode version that uses LLVM6.0. You can refer to ``Toolchain version history`` in [Xcode - Wikipedia](https://en.wikipedia.org/wiki/Xcode) and uses the ``LLVM`` column to find the matching Xcode version, which is this case is ``Xcode 10.0`` and ``Xcode 10.1``.
 # Credits
 
 - Thanks to [@AloneMonkey](https://github.com/AloneMonkey) for compiling substitute and ship it with his amazing project [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev/blob/master/MFrameworks/libsubstitute.dylib)
