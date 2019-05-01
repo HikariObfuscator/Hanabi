@@ -60,6 +60,24 @@ Or alternatively, manually edit [LoadEnv() in Obfuscation.cpp](https://github.co
 # Known Issues
 - LLVM 6.0.1 (which Xcode 10.1 and before is using) has bugs related to ``indirectbr`` CodeGeneration, you might get a crash if you enable ``INDIBRAN``. Try updating your Xcode version
 
+# Debugging
+```
+dyld: Symbol not found: XXXXXXXXX
+  Referenced from: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libLLVMHanabi.dylib
+  Expected in: flat namespace
+ in /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libLLVMHanabi.dylib
+Command CompileSwiftSources failed with a nonzero exit code
+```
+Make sure that you have strictly followed build guide. If the missing symbol contains ``ABIBreakingChecks`` then you are doing it wrong, read the documentation and try again. Otherwise try the following:
+- Remove the first underscore in the symbol name, for example ``__ZN4llvm10ModulePassD2Ev`` becomes ``_ZN4llvm10ModulePassD2Ev``
+- In ``Loader.cpp``, add an implementation of the symbol, below is an exampe:
+```
+extern "C" void _ZN4llvm10ModulePassD2Ev(void* curr){
+
+}
+```
+- Most of the time the symbol is not actually called, so leaving the body empty is more than enough. Otherwise you'll need to implementation your own symbol resolving routine. For example,see ``Loader.cpp``'s handling to resolve the missing ``_ZN4llvm21createLowerSwitchPassEv``. Apparently, this requires some sort of knowledge w.r.t LLVM. If this is too much for you then revert Hanabi to ``724387ad1cc1d33c5d9ddcc3cce380a7eea92bf4`` where a different injection method is used. Note that in this case the Hikari release branch version must much Apple Clang's base LLVM version. The method of finding the base LLVM version could be found below in **Release Versioning Scheme** section.
+
 # How it works
 Strictly speaking, many changes are done to the Hikari Core to reduce LLVM library dependencies. This plus a custom ``CMakeLists.txt`` allows us to redirect almost all Hikari Core's LLVM API Usage back to Apple Clang's implementation. The rest is just plain version-by-version analysis to manually resolve the remaining symbols that are not exported. Since probably 99.99% of the LLVM APIs are redirected back, this solution has the maximum compatibility when properly compiled and injected, comparing to previous naive implementations.
 
