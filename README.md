@@ -21,6 +21,7 @@ Due to its hackish nature (Which is why I don't want to do this in the first pla
 
 ## Obtaining Source
 - ``git clone https://github.com/HikariObfuscator/Hanabi.git $(LLVM_SOURCE_PATH)/projects/``
+- Under ``$(LLVM_SOURCE_PATH)``, run ``git submodule update --init --recursive --remote`` to make sure submodules are fully updated
 
 ## Build
 - ``cmake $(LLVM_SOURCE_PATH) -DCMAKE_BUILD_TYPE=Release -DLLVM_ABI_BREAKING_CHECKS=FORCE_OFF -G Ninja``
